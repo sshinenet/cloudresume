@@ -1,4 +1,16 @@
 terraform {
+  # State lives in S3 so CI can reach it. Locking uses the S3-native lock file
+  # (Terraform 1.10+), so no DynamoDB lock table is needed. The bucket is
+  # created outside this configuration, since it cannot hold the state that
+  # manages it.
+  backend "s3" {
+    bucket       = "stevenshine-info-tfstate"
+    key          = "cloudresume/terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
+    use_lockfile = true
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
