@@ -2,7 +2,11 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "4.67.0"
+      version = "5.100.0"
+    }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.4"
     }
   }
 }
@@ -27,6 +31,7 @@ resource "aws_s3_object" "website_bucket" {
   key          = "index.html"
   source       = "./index.html"
   content_type = "text/html"
+  etag         = filemd5("./index.html")
 }
 
 resource "aws_s3_object" "website_bucket_coffeelogo" {
@@ -55,6 +60,7 @@ resource "aws_s3_object" "website_bucket_stylecss" {
   key          = "style/style.css"
   source       = "./style/style.css"
   content_type = "text/css"
+  etag         = filemd5("./style/style.css")
 }
 
 resource "aws_s3_object" "website_bucket_javascript" {
@@ -62,6 +68,15 @@ resource "aws_s3_object" "website_bucket_javascript" {
   key          = "main.js"
   source       = "./main.js"
   content_type = "text/javascript"
+  etag         = filemd5("./main.js")
+}
+
+resource "aws_s3_object" "website_bucket_counterjs" {
+  bucket       = aws_s3_bucket.website_bucket.id
+  key          = "counter.js"
+  source       = "./counter.js"
+  content_type = "text/javascript"
+  etag         = filemd5("./counter.js")
 }
 
 resource "aws_cloudfront_distribution" "cdn_static_site" {
