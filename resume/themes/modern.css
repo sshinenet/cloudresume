@@ -1,0 +1,71 @@
+/* Theme: modern. Heavy sans name with an accent bar, bar-marked section
+   headings, boxed highlight tiles, the current role set off with a tinted
+   panel, and uppercase skill labels. Single column; extraction order unchanged. */
+
+@page { size: Letter; margin: 0.5in 0.6in; }
+
+:root {
+  --ink: #16202a;
+  --muted: #5b6672;
+  --accent: #0b5e5e;
+  --tint: #eef5f5;
+  --rule: #d5dde3;
+  --sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0; background: #fff; color: var(--ink);
+  font-family: var(--sans); font-size: 10.2pt; line-height: 1.32;
+}
+.page { max-width: 8.5in; margin: 0 auto; padding: 0.5in 0.6in; }
+@media print { .page { max-width: none; padding: 0; } }
+a { color: inherit; text-decoration: none; }
+
+/* Header: bold uppercase name beside a thick accent bar. */
+.head { border-left: 6pt solid var(--accent); padding-left: 11pt; margin-bottom: 9pt; }
+.head h1 {
+  font-size: 24pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1.4pt;
+  margin: 0 0 1pt; color: var(--ink); line-height: 1.05;
+}
+.tagline { font-size: 10.8pt; font-weight: 600; color: var(--accent); margin: 0 0 3pt; }
+.contact { margin: 0; font-size: 9.3pt; color: var(--muted); }
+.contact .sep { margin: 0 5pt; color: var(--rule); }
+
+/* Sections: uppercase heading with a short accent bar at left. */
+section { margin-top: 9pt; }
+h2 {
+  font-size: 9.6pt; font-weight: 700; text-transform: uppercase; letter-spacing: 2pt;
+  color: var(--accent); border-left: 3.5pt solid var(--accent); padding-left: 6pt;
+  margin: 0 0 6pt; line-height: 1.1;
+}
+p { margin: 0 0 4pt; }
+
+/* Highlights: four bordered tiles with an accent top edge. */
+ul.highlights { list-style: none; margin: 7pt 0 2pt; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6pt; }
+ul.highlights li { border: 1px solid var(--rule); border-top: 3px solid var(--accent); padding: 5pt 7pt 5pt; background: #fff; }
+ul.highlights .n { display: block; font-size: 15pt; font-weight: 800; color: var(--accent); line-height: 1.05; }
+ul.highlights .t { display: block; font-size: 8.3pt; color: var(--muted); line-height: 1.25; margin-top: 2pt; }
+
+/* Entries: the current role sits in a tinted panel; older roles are plain and slightly smaller. */
+.entry { break-inside: avoid; margin-bottom: 7pt; }
+.sec-experience .entry.first { background: var(--tint); border-left: 3pt solid var(--accent); padding: 6pt 8pt 4pt 9pt; margin: 0 0 9pt; }
+.sec-experience .entry:not(.first) { font-size: 9.8pt; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+.title { font-weight: 700; }
+.entry.first .title { font-size: 11.6pt; }
+.org { font-weight: 400; color: var(--ink); }
+.dates { white-space: nowrap; color: var(--muted); font-size: 9.2pt; font-weight: 600; letter-spacing: 0.2pt; }
+.loc { color: var(--muted); font-size: 9.1pt; margin-bottom: 2pt; }
+
+ul { margin: 0; padding-left: 13pt; }
+li { margin: 0 0 2.2pt; padding-left: 1pt; }
+li::marker { color: var(--accent); }
+
+/* Skills: uppercase label kept INLINE with its value. A fixed label column
+   reads as two columns to text extractors and detaches labels from values. */
+ul.skills { list-style: none; padding-left: 0; margin: 0; }
+ul.skills li { padding: 2.2pt 0; margin: 0; border-bottom: 1px solid var(--rule); font-size: 9.6pt; }
+ul.skills li:last-child { border-bottom: 0; }
+ul.skills .k { font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9pt; color: var(--accent); margin-right: 2pt; }

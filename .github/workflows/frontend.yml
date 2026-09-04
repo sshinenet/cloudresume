@@ -9,6 +9,7 @@ on:
       - "counter.js"
       - "style/**"
       - "image/**"
+      - "resume/dist/**"
       - "tests/**"
       - "package.json"
       - "main.tf"

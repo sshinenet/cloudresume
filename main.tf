@@ -53,11 +53,14 @@ resource "aws_s3_object" "website_bucket_coffeelogo" {
   content_type = "image/x-png"
 }
 
+# The served résumé is built by resume/build.py from resume/src/general.md and
+# published into resume/dist/. The etag makes Terraform notice a rebuilt PDF.
 resource "aws_s3_object" "website_bucket_resume" {
   bucket       = aws_s3_bucket.website_bucket.id
-  key          = "2023-Resume-StevenShine-compressed.pdf"
-  source       = "./2023-Resume-StevenShine-compressed.pdf"
+  key          = "Steven-Shine-Resume.pdf"
+  source       = "./resume/dist/Steven-Shine-Resume.pdf"
   content_type = "application/pdf"
+  etag         = filemd5("./resume/dist/Steven-Shine-Resume.pdf")
 }
 
 resource "aws_s3_object" "website_bucket_coffeeicon" {

@@ -42,3 +42,14 @@ __pycache__/
 
 # npm
 node_modules/
+
+# Résumé workspace: only the build tooling, the general source, and the one
+# deployed PDF are tracked. Tailored variants, build outputs, the headshot,
+# and previous résumés stay local so the public repo holds exactly what the
+# site serves.
+resume/out/
+resume/previous/
+resume/assets/
+resume/src/*
+!resume/src/general.md
+resume/denylist.txt
