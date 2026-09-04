@@ -51,6 +51,11 @@ data "archive_file" "visitor_counter" {
   type        = "zip"
   source_file = "${path.module}/backend/handler.py"
   output_path = "${path.module}/backend/handler.zip"
+
+  # Without a fixed mode the zip records the platform's file permissions, so a
+  # Windows workstation and a Linux CI runner produce different hashes and the
+  # function is redeployed on every alternating apply.
+  output_file_mode = "0644"
 }
 
 resource "aws_lambda_function" "visitor_counter" {

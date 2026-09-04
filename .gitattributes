@@ -1,0 +1,9 @@
+# Normalise line endings to LF everywhere, including in Windows working trees.
+# Terraform hashes these files with filemd5() to decide whether to re-upload
+# them, so a CRLF checkout locally and an LF checkout in CI would make every
+# deploy re-upload identical content forever.
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.pdf binary
