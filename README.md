@@ -79,6 +79,21 @@ at all — the frontend suite uses Node's built-in test runner.
 
 ## Deploying
 
+Deploys run in GitHub Actions. Two path-filtered workflows — one for the
+backend, one for the frontend — run their test suite and then apply Terraform.
+Pull requests run tests only. Both share a concurrency group, since they apply
+the same state.
+
+Actions authenticates to AWS through GitHub's OIDC provider, assuming a role
+whose trust policy is pinned to this repository's `production` environment.
+No long-lived AWS credentials are stored in the repository. That environment
+requires a manual approval before any deploy proceeds.
+
+State lives in a versioned, encrypted S3 bucket and uses S3-native locking, so
+no DynamoDB lock table is needed.
+
+To run it by hand instead:
+
 ```bash
 terraform init
 terraform plan
@@ -88,13 +103,15 @@ terraform apply
 Terraform manages the site files as S3 objects, so an `apply` publishes content
 changes as well as infrastructure changes.
 
-State is currently local and deploys are run by hand. Moving state to an S3
-backend is the prerequisite for putting this behind GitHub Actions, which is
-the next piece of work.
+`.gitattributes` normalises line endings to LF. Terraform hashes the site files
+with `filemd5()`, so a CRLF working tree on Windows and an LF checkout in CI
+would otherwise re-upload identical content on every deploy. The Lambda zip
+pins its file mode for the same reason.
 
 ## Status
 
 Done: HTML, CSS, static site on S3, HTTPS, DNS, JavaScript counter, DynamoDB,
-API, Python, tests, infrastructure as code, source control.
+API, Python, tests, infrastructure as code, source control, and CI/CD for both
+backend and frontend.
 
-Not yet: CI/CD for backend and frontend, and the write-up.
+Not yet: the write-up.
